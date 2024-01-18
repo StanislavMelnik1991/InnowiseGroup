@@ -8,3 +8,10 @@ export type ImageType = {
   title: string;
   url: string;
 };
+
+export type ImageErrorType = {
+  error: {
+    code: string;
+    message: string;
+  };
+};

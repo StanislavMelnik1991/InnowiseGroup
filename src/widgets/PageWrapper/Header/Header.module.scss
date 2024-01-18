@@ -1,0 +1,14 @@
+.wrapper {
+  width: 100%;
+  height: var(--header-height);
+  flex-shrink: 0;
+  display: flex;
+  padding: 0 20px;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid rgba(var(--callout-border-rgb), 0.3);
+  position: sticky;
+  top: 0;
+  left: 0;
+  z-index: 10;
+}

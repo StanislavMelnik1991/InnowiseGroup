@@ -10,12 +10,12 @@ export const NasaImage = ({ alt, src }: Props) => {
   return (
     <div className={styles.wrapper}>
       <Image
-        width={0}
-        height={0}
-        sizes="100%"
+        width={1920}
+        height={1920}
         className={styles.image}
         src={src}
         alt={alt}
+        priority
       />
     </div>
   );

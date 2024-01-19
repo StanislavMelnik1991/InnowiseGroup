@@ -11,15 +11,21 @@ type Props = {
 
 const Page = async ({ params: { date } }: Props) => {
   const API_KEY = process.env.NASA_API_KEY as string;
-  const validDate = validateDate(date?.[0]);
-  if (date?.[0] !== validDate) {
-    redirect(`/${validDate}`);
+  const { current, next, prev } = validateDate(date?.[0]);
+  if (date?.[0] !== current) {
+    redirect(`/${current}`);
   }
   try {
     const image = await getImages({ key: API_KEY, date: date?.[0] });
     return (
       <PageWrapper title={image.title}>
-        <NasaImage src={image.url} alt={image.title} hdImage={image.hd} />
+        <NasaImage
+          src={image.url}
+          alt={image.title}
+          hdImage={image.hd}
+          next={next}
+          prev={prev}
+        />
       </PageWrapper>
     );
   } catch (error) {

@@ -1,0 +1,37 @@
+$padding: 10px;
+
+.wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  max-height: 200px;
+  overflow: hidden;
+  background-color: rgba(var(--callout-rgb), 0.5);
+  padding: $padding;
+
+  &:hover {
+    .image {
+      z-index: 1;
+    }
+  }
+}
+
+.image {
+  width: 100%;
+  height: auto;
+  z-index: -1;
+  object-fit: cover;
+}
+
+.date {
+  text-align: end;
+  position: absolute;
+  z-index: 10;
+  top: $padding;
+  right: $padding;
+}
+.title {
+  text-align: center;
+  margin: auto 0;
+}

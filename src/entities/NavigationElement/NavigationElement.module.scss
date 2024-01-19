@@ -1,11 +1,14 @@
 .wrapper {
   display: flex;
+  gap: 10px;
 
   path {
     stroke: rgb(var(--foreground-rgb));
   }
 
   &:hover {
+    color: rgba(var(--foreground-rgb), 0.7);
+
     path {
       transition: all 0.1s;
       stroke: rgba(var(--foreground-rgb), 0.7);

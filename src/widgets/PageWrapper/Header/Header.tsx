@@ -1,7 +1,7 @@
 import Image from "next/image";
-import { NavigationElement } from "@entities/NavigationElement/NavigationElement";
-import { CalendarIcon } from "@shared/uiComponents/icons/Calendar/Calendar";
+import Link from "next/link";
 import styles from "./Header.module.scss";
+import { Navigation } from "./Navigation/Navigation";
 
 type Props = {
   title?: string;
@@ -10,13 +10,11 @@ type Props = {
 export const Header = ({ title }: Props) => {
   return (
     <header className={styles.wrapper}>
-      <NavigationElement href={"/"}>
+      <Link href={"/"}>
         <Image src={"/nasa.svg"} width={50} height={50} alt="logo" />
-      </NavigationElement>
+      </Link>
       <h1>{title}</h1>
-      <NavigationElement href={"/calendar"}>
-        <CalendarIcon />
-      </NavigationElement>
+      <Navigation />
     </header>
   );
 };

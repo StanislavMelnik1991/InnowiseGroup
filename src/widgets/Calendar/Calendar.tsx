@@ -1,28 +1,27 @@
 "use client";
-import { format } from "date-fns";
-import Link from "next/link";
 import { useCalendarImages } from "@features/hooks/calendarImages/calendarImages";
 import { getCalendarData } from "@features/images/getCalendarImages";
+import { CalendarDay } from "@entities/CalendarDay/CalendarDay";
 import styles from "./Calendar.module.scss";
+import { CalendarHeader } from "./CalendarHeader/CalendarHeader";
 
 export const CalendarWidget = () => {
-  const { calendarData, monthName } = useCalendarImages({
+  const { calendarData, monthName, nextMonth, prevMonth } = useCalendarImages({
     getCalendarData,
   });
   return (
     <div className={styles.wrapper}>
-      <h2>{monthName}</h2>
+      <CalendarHeader next={nextMonth} prev={prevMonth} title={monthName} />
       <div className={styles.calendar}>
-        {calendarData.map((val) => {
+        {calendarData.map(({ date, image, title }) => {
           return (
-            <Link
-              href={`/${format(val.date, "yyyy-MM-dd")}`}
+            <CalendarDay
+              date={date}
+              image={image}
+              title={title}
               className={styles.day}
-              key={val.date.toLocaleString()}
-            >
-              <p>{val.date.getDate()}</p>
-              <p>{val.title}</p>
-            </Link>
+              key={date.toLocaleString()}
+            />
           );
         })}
       </div>

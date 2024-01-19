@@ -4,7 +4,7 @@ import { enGB } from "date-fns/locale";
 import { useCallback, useEffect, useState } from "react";
 import { type ImageType, type VideoType } from "@entities/types/image.type";
 import { youtubeLinkParser } from "@shared/utils/linkParser";
-import { getDaysOfCurrentAndAdjacentMonths } from "./utils";
+import { generateDate, getDaysOfCurrentAndAdjacentMonths } from "./utils";
 
 type Props = {
   getCalendarData: (formData: FormData) => Promise<{
@@ -65,12 +65,23 @@ export const useCalendarImages = ({ getCalendarData }: Props) => {
       const dates = getDaysOfCurrentAndAdjacentMonths(date).map((date) => {
         return { date };
       });
-      setCalendarData(dates);
       setMonthName(format(dates[15].date, "MMMM", { locale: enGB }));
       uploadData(dates);
     },
     [uploadData],
   );
+
+  const nextMonth = useCallback(() => {
+    const nextDate = generateDate(
+      calendarData[calendarData.length - 1].date,
+      1,
+    );
+    getCalendarDates(nextDate);
+  }, [calendarData, getCalendarDates]);
+  const prevMonth = useCallback(() => {
+    const nextDate = generateDate(calendarData[0].date, -1);
+    getCalendarDates(nextDate);
+  }, [calendarData, getCalendarDates]);
 
   useEffect(() => {
     getCalendarDates(new Date());
@@ -79,5 +90,7 @@ export const useCalendarImages = ({ getCalendarData }: Props) => {
   return {
     calendarData,
     monthName,
+    nextMonth,
+    prevMonth,
   };
 };

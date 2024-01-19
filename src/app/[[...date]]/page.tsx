@@ -12,13 +12,12 @@ type Props = {
 };
 
 const Page = async ({ params: { date } }: Props) => {
-  const API_KEY = process.env.NASA_API_KEY as string;
   const { current, next, prev } = validateDate(date?.[0]);
   if (date?.[0] !== current) {
     redirect(`/${current}`);
   }
   try {
-    const image = await getImages({ key: API_KEY, date: date?.[0] });
+    const image = await getImages({ date: date?.[0] });
     return (
       <PageWrapper title={image.title}>
         <NasaImage

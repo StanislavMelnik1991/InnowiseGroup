@@ -1,3 +1,4 @@
+"use server";
 import {
   VideoType,
   type ImageErrorType,
@@ -7,7 +8,6 @@ import { ApiError } from "@shared/utils/error";
 import { youtubeLinkParser } from "@shared/utils/linkParser";
 
 type Props = {
-  key: string;
   date?: string;
 };
 
@@ -19,9 +19,10 @@ type ResultType = {
 
 type GetImagesType = (props: Props) => Promise<ResultType>;
 
-export const getImages: GetImagesType = async ({ key, date }) => {
+export const getImages: GetImagesType = async ({ date }) => {
+  const API_KEY = process.env.NASA_API_KEY as string;
   const res = await fetch(
-    `https://api.nasa.gov/planetary/apod?api_key=${key}&date=${date}`,
+    `https://api.nasa.gov/planetary/apod?api_key=${API_KEY}&date=${date}`,
   );
   const result = await (res.json() as Promise<
     ImageType | VideoType | ImageErrorType

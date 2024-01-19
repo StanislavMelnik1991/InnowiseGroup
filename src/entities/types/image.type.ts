@@ -17,6 +17,7 @@ export type ImageErrorType = {
 };
 
 export type VideoType = {
+  date: string;
   media_type: "video";
   service_version: string;
   title: string;

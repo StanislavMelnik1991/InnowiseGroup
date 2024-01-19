@@ -13,7 +13,7 @@ export const Header = ({ title }: Props) => {
       <Link href={"/"}>
         <Image src={"/nasa.svg"} width={50} height={50} alt="logo" />
       </Link>
-      <h1>{title}</h1>
+      <h1 className={styles.title}>{title}</h1>
       <Navigation />
     </header>
   );

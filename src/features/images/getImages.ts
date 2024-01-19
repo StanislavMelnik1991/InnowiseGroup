@@ -3,6 +3,7 @@ import {
   type ImageErrorType,
   type ImageType,
 } from "@entities/types/image.type";
+import { ApiError } from "@shared/utils/error";
 import { youtubeLinkParser } from "@shared/utils/linkParser";
 
 type Props = {
@@ -26,7 +27,11 @@ export const getImages: GetImagesType = async ({ key, date }) => {
     ImageType | VideoType | ImageErrorType
   >);
   if ((result as ImageErrorType).error) {
-    throw new Error((result as ImageErrorType).error.message);
+    throw new ApiError({
+      code: 500,
+      message: (result as ImageErrorType).error.message,
+      title: (result as ImageErrorType).error.code,
+    });
   }
   if ((result as VideoType).media_type === "video") {
     const id = youtubeLinkParser((result as VideoType).url);
@@ -43,5 +48,9 @@ export const getImages: GetImagesType = async ({ key, date }) => {
       hd: (result as ImageType).hdurl,
     };
   }
-  throw new Error("unexpected");
+  throw new ApiError({
+    code: 500,
+    message: "Unexpected",
+    title: "Internal server error",
+  });
 };

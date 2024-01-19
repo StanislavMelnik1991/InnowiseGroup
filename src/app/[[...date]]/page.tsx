@@ -1,8 +1,10 @@
 import { redirect, notFound } from "next/navigation";
+import { ErrorWidget } from "@widgets/Error/Error";
 import { NasaImage } from "@widgets/NasaImage/NasaImage";
 import { PageWrapper } from "@widgets/PageWrapper/PageWrapper";
 import { getImages } from "@features/images/getImages";
 import { validateDate } from "@features/validateDate/validateDate";
+import { ApiError } from "@shared/utils/error";
 
 type Props = {
   params: { date?: string[] };
@@ -29,6 +31,20 @@ const Page = async ({ params: { date } }: Props) => {
       </PageWrapper>
     );
   } catch (error) {
+    if (error instanceof ApiError) {
+      if (error.code === 404) {
+        return notFound();
+      }
+      return (
+        <PageWrapper title={`Error code: ${error.code}`}>
+          <ErrorWidget
+            code={error.code}
+            message={error.message}
+            title={error.title}
+          />
+        </PageWrapper>
+      );
+    }
     notFound();
   }
 };

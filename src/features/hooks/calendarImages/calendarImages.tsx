@@ -3,8 +3,11 @@ import { format } from "date-fns/format";
 import { enGB } from "date-fns/locale";
 import { useCallback, useEffect, useState } from "react";
 import { type ImageType, type VideoType } from "@entities/types/image.type";
+import {
+  generateDate,
+  getDaysOfCurrentAndAdjacentMonths,
+} from "@shared/utils/dateHeplers";
 import { youtubeLinkParser } from "@shared/utils/linkParser";
-import { generateDate, getDaysOfCurrentAndAdjacentMonths } from "./utils";
 
 type Props = {
   getCalendarData: (formData: FormData) => Promise<{
@@ -20,6 +23,8 @@ type ICalendarData = {
 
 export const useCalendarImages = ({ getCalendarData }: Props) => {
   const [calendarData, setCalendarData] = useState<Array<ICalendarData>>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+
   const [monthName, setMonthName] = useState(
     format(new Date(), "MMMM", { locale: enGB }),
   );
@@ -56,6 +61,7 @@ export const useCalendarImages = ({ getCalendarData }: Props) => {
         }
       });
       setCalendarData(newDates);
+      setIsLoading(true);
     },
     [getCalendarData],
   );
@@ -72,13 +78,16 @@ export const useCalendarImages = ({ getCalendarData }: Props) => {
   );
 
   const nextMonth = useCallback(() => {
+    setIsLoading(false);
     const nextDate = generateDate(
       calendarData[calendarData.length - 1].date,
       1,
     );
     getCalendarDates(nextDate);
   }, [calendarData, getCalendarDates]);
+
   const prevMonth = useCallback(() => {
+    setIsLoading(false);
     const nextDate = generateDate(calendarData[0].date, -1);
     getCalendarDates(nextDate);
   }, [calendarData, getCalendarDates]);
@@ -90,6 +99,7 @@ export const useCalendarImages = ({ getCalendarData }: Props) => {
   return {
     calendarData,
     monthName,
+    isLoading,
     nextMonth,
     prevMonth,
   };

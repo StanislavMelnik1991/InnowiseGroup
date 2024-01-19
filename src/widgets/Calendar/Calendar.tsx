@@ -6,11 +6,12 @@ import styles from "./Calendar.module.scss";
 import { CalendarHeader } from "./CalendarHeader/CalendarHeader";
 
 export const CalendarWidget = () => {
-  const { calendarData, monthName, nextMonth, prevMonth } = useCalendarImages({
-    getCalendarData,
-  });
+  const { calendarData, monthName, isLoading, nextMonth, prevMonth } =
+    useCalendarImages({
+      getCalendarData,
+    });
   return (
-    <div className={styles.wrapper}>
+    <div className={`${styles.wrapper} ${isLoading ? "" : styles.loader}`}>
       <CalendarHeader next={nextMonth} prev={prevMonth} title={monthName} />
       <div className={styles.calendar}>
         {calendarData.map(({ date, image, title }) => {

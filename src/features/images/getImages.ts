@@ -10,7 +10,15 @@ type Props = {
   date?: string;
 };
 
-export const getImages = async ({ key, date }: Props) => {
+type ResultType = {
+  title: string;
+  url: string;
+  hd?: string;
+};
+
+type GetImagesType = (props: Props) => Promise<ResultType>;
+
+export const getImages: GetImagesType = async ({ key, date }) => {
   const res = await fetch(
     `https://api.nasa.gov/planetary/apod?api_key=${key}&date=${date}`,
   );
@@ -31,7 +39,8 @@ export const getImages = async ({ key, date }: Props) => {
   if ((result as ImageType).media_type === "image") {
     return {
       title: (result as ImageType).title,
-      url: (result as ImageType).hdurl,
+      url: (result as ImageType).url,
+      hd: (result as ImageType).hdurl,
     };
   }
   throw new Error("unexpected");

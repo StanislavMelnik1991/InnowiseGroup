@@ -1,8 +1,8 @@
 import { redirect, notFound } from "next/navigation";
 import { NasaImage } from "@widgets/NasaImage/NasaImage";
+import { PageWrapper } from "@widgets/PageWrapper/PageWrapper";
 import { getImages } from "@features/images/getImages";
 import { validateDate } from "@features/validateDate/validateDate";
-import { ImageType } from "@entities/types/image.type";
 
 type Props = {
   params: { date?: string[] };
@@ -18,10 +18,9 @@ const Page = async ({ params: { date } }: Props) => {
   try {
     const image = await getImages({ key: API_KEY, date: date?.[0] });
     return (
-      <NasaImage
-        src={(image as ImageType).hdurl || (image as ImageType).url}
-        alt={(image as ImageType).title}
-      />
+      <PageWrapper title={image.title}>
+        <NasaImage src={image.url} alt={image.title} hdImage={image.hd} />
+      </PageWrapper>
     );
   } catch (error) {
     notFound();

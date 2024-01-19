@@ -3,12 +3,13 @@ import styles from "./PageWrapper.module.scss";
 
 type Props = {
   children: React.ReactNode;
+  title?: string;
 };
 
-export const PageWrapper = ({ children }: Props) => {
+export const PageWrapper = ({ children, title }: Props) => {
   return (
     <main className={styles.wrapper}>
-      <Header />
+      <Header title={title} />
       <div className={styles.scrolling}>{children}</div>
     </main>
   );

@@ -1,5 +1,13 @@
 import styles from "./Header.module.scss";
 
-export const Header = () => {
-  return <header className={styles.wrapper}></header>;
+type Props = {
+  title?: string;
+};
+
+export const Header = ({ title }: Props) => {
+  return (
+    <header className={styles.wrapper}>
+      <h1>{title}</h1>
+    </header>
+  );
 };
